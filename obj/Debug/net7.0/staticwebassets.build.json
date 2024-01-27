@@ -1,0 +1,71 @@
+{
+  "Version": 1,
+  "Hash": "hHVtSHqf2TKYk97lghN7W6/q1kQdSXdLE47GS3DzNuw=",
+  "Source": "tasks",
+  "BasePath": "_content/tasks",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "tasks\\wwwroot",
+      "Source": "tasks",
+      "ContentRoot": "C:\\Users\\user\\Documents\\studies\\year2\\core\\tasks\\wwwroot\\",
+      "BasePath": "_content/tasks",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\user\\Documents\\studies\\year2\\core\\tasks\\wwwroot\\css\\site.css",
+      "SourceId": "tasks",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\user\\Documents\\studies\\year2\\core\\tasks\\wwwroot\\",
+      "BasePath": "_content/tasks",
+      "RelativePath": "css/site.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\site.css"
+    },
+    {
+      "Identity": "C:\\Users\\user\\Documents\\studies\\year2\\core\\tasks\\wwwroot\\index.html",
+      "SourceId": "tasks",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\user\\Documents\\studies\\year2\\core\\tasks\\wwwroot\\",
+      "BasePath": "_content/tasks",
+      "RelativePath": "index.html",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\index.html"
+    },
+    {
+      "Identity": "C:\\Users\\user\\Documents\\studies\\year2\\core\\tasks\\wwwroot\\js\\site.js",
+      "SourceId": "tasks",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\user\\Documents\\studies\\year2\\core\\tasks\\wwwroot\\",
+      "BasePath": "_content/tasks",
+      "RelativePath": "js/site.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\site.js"
+    }
+  ]
+}
