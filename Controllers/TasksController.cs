@@ -1,12 +1,12 @@
 //using System.Collections.Generic;
 
 using Microsoft.AspNetCore.Mvc;
-using Tasks.Interfaces;
-using Tasks.Models;
+using homeworkCore.Interfaces;
+using homeworkCore.Models;
 //  using Tasks.Services;
  //using Tasks.Interfaces;
 
-namespace Tasks.Controllers;
+namespace homeworkCore.Controllers;
 
 [ApiController]
 [Route("[controller]")]

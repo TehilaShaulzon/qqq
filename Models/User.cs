@@ -1,9 +1,10 @@
 namespace homeworkCore.Models;
 
-public class Todo
+public class User
 {
     public int Id { get; set;}
     public string Name { get; set;}
-    public bool IsDone {get; set;}
+    public string Password {get; set;}
+    public bool IsAdmin { get; set; }
 }
 

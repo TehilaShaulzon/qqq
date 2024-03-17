@@ -1,7 +1,7 @@
-using Tasks.Models;
+using homeworkCore.Models;
 using System.Collections.Generic;
 
-namespace Tasks.Interfaces;
+namespace homeworkCore.Interfaces;
 
 public interface ITaskServices
 {
