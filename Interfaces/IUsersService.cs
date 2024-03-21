@@ -1,42 +1,20 @@
-using System.Diagnostics;
+using Tasks.Models;
+using System.Collections.Generic;
 
-namespace homeworkCore.Middlewares;
+namespace Tasks.Interfaces;
 
-public class logMiddleware
+public interface IUserServices
 {
-    private RequestDelegate next;
-    private readonly string logFilePath;
+    List<User> GetAll();
 
+    User GetById(int id);
 
-    public logMiddleware(RequestDelegate next, string logFilePath)
-    {
-        this.next = next;
-        this.logFilePath = logFilePath;
-    }
+    int Add(User newUser);
 
-    public async Task Invoke(HttpContext c)
-    {
-        var sw = new Stopwatch();
-        sw.Start();
-        await next(c);
-        
-        WriteLogToFile($"{c.Request.Path}.{c.Request.Method} took {sw.ElapsedMilliseconds}ms."
-            + $" User: {c.User?.FindFirst("Id")?.Value ?? "unknown"}");     
-    }    
+    bool Update(int id, User newUser);
+    // bool Update(string name,string password, User newUser);
 
-    private void WriteLogToFile(string logMessage)
-        {
-            using (StreamWriter sw = File.AppendText(logFilePath))
-            {
-                sw.WriteLine(logMessage);
-            }
-        }
-}
+    bool Delete(int id);
+    int ExistUser(string name, string password);
 
-public static partial class MiddleExtensions
-{
-    public static IApplicationBuilder UselogMiddleware(this IApplicationBuilder builder, string logFilePath)
-    {
-        return builder.UseMiddleware<logMiddleware>(logFilePath);
-    }
 }

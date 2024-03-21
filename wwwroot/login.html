@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>login</h1>
+    <label for="name">enter name</label>
+    <input type="text" name="name" id="name">
+    <label for="password">enter password</label>
+    <input type="text" name="password" id="password">
+    <button type="submit" id="submit">send</button>
+    <a href="https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=527151850613-cake67hkhqou3n3a47l4can5o19poj8u.apps.googleusercontent.com&redirect_uri=https://localhost:7188/login&scope=openid%20email&state=STATE_STRING" id="">התחבר באמצעות גוגל</a>
+   
+<button id="postmanButton">Open in Postman</button>
+
+<script>
+    document.getElementById("postmanButton").addEventListener("click", function() {
+        window.open("https://elements.getpostman.com/redirect?entityId=31279862-143db038-dc08-433b-8751-3488cd3be0f8&entityType=collection", "_blank");
+    });
+</script>
+
+<!-- <div class="postman-run-button"
+data-postman-action="collection/fork"
+data-postman-visibility="public"
+data-postman-var-1="31279862-143db038-dc08-433b-8751-3488cd3be0f8"
+data-postman-collection-url="entityId=31279862-143db038-dc08-433b-8751-3488cd3be0f8&entityType=collection&workspaceId=ea10c2d7-3bd3-45d8-a20b-ca2056b2b765"></div>
+<script type="text/javascript">
+  (function (p,o,s,t,m,a,n) {
+    !p[s] && (p[s] = function () { (p[t] || (p[t] = [])).push(arguments); });
+    !o.getElementById(s+t) && o.getElementsByTagName("head")[0].appendChild((
+      (n = o.createElement("script")),
+      (n.id = s+t), (n.async = 1), (n.src = m), n
+    ));
+  }(window, document, "_pm", "PostmanRunObject", "https://run.pstmn.io/button.js"));
+</script> -->
+</body>
+<script src="./js/login.js"></script>
+</html>

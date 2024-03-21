@@ -1,12 +1,46 @@
-const uri = "https://:7188/Tasks";
+const uriTasks = "https://localhost:7188/Tasks";
+const uriUsers = "https://localhost:7188/Users";
 //const uri = '..Tasks' אפשר גם:
 let tasks = [];
+userName=document.getElementById('userName')
+function checkToken() {
+    fetch(uriTasks, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}`
+        },
+    })
+        .then(response => response.json())
+        .then(getItems())
+        .catch(error => {
+            sessionStorage.setItem("check", error)
+            console.log(error);
+            location.href = "./login.html"
+
+        });
+
+}
 
 function getItems() {
-    fetch(uri)
+    fetch(uriTasks, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}`
+        },
+    })
         .then(response => response.json())
         .then(data => _displayItems(data))
-        .catch(error => console.error('Unable to get items.', error));
+        // .catch(error => console.error('Unable to get items.', error));
+        .catch(error => {
+            console.log(error);
+            // location.href = "./login.html"
+
+        });
+
 }
 
 function addItem() {
@@ -17,14 +51,15 @@ function addItem() {
         name: addNameTextbox.value.trim()
     };
 
-    fetch(uri, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(item)
-        })
+    fetch(uriTasks, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify(item)
+    })
         .then(response => response.json())
         .then(() => {
             getItems();
@@ -34,9 +69,14 @@ function addItem() {
 }
 
 function deleteItem(id) {
-    fetch(`${uri}/${id}`, {
-            method: 'DELETE'
-        })
+    fetch(`${uriTasks}/${id}`, {
+        method: 'DELETE',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}`
+        },
+    })
         .then(() => getItems())
         .catch(error => console.error('Unable to delete item.', error));
 }
@@ -58,24 +98,25 @@ function updateItem() {
         name: document.getElementById('edit-name').value.trim()
     };
 
-    fetch(`${uri}/${itemId}`, {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(item)
-        })
+    fetch(`${uriTasks}/${itemId}`, {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify(item)
+    })
         .then(() => getItems())
         .catch(error => console.error('Unable to update item.', error));
 
-    closeInput();
+    closeInput('editForm');
 
     return false;
 }
 
-function closeInput() {
-    document.getElementById('editForm').style.display = 'none';
+function closeInput(formToClose) {
+    document.getElementById(formToClose).style.display = 'none';
 }
 
 function _displayCount(itemCount) {
@@ -124,3 +165,85 @@ function _displayItems(data) {
 
     tasks = data;
 }
+
+
+if (localStorage.getItem("token") == null) {
+    console.log("login");
+    sessionStorage.setItem("not", "not exist token")
+
+    location.href = "./login.html"
+
+}
+function createLink() {
+    if (localStorage.getItem("link") == "true") {
+
+        let link = document.createElement("a");
+        link.href = "./userList.html";
+        link.innerHTML = "users";
+        console.log(sessionStorage.getItem("link"));
+        document.body.appendChild(link);
+    }
+}
+console.log(localStorage.getItem("token"));
+
+
+function editUser() {
+
+    document.getElementById('edit-name-user').value = user.name
+    document.getElementById('edit-id-user').value = user.id;
+    document.getElementById('edit-password-user').value = user.password;
+    document.getElementById('editUserForm').style.display = 'block';
+    console.log(document.getElementById('edit-id-user').value);
+}
+function updateUser() {
+    const newUser = {
+        id: user.id,
+        name: document.getElementById('edit-name-user').value.trim(),
+        password: document.getElementById('edit-password-user').value.trim()
+    };
+    fetch(`${uriUsers}/${user.id}`, {
+        method: 'PUT',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify(newUser)
+    })
+        .then(() =>{
+            user=newUser;
+            userName.innerHTML=user.name;
+        }
+        )
+        .catch(error => console.error('Unable to update item.', error));
+
+closeInput('editUserForm')
+    return false;
+}
+function createUser(response) {
+    user = response;
+    userName.innerHTML = user.name;
+
+}
+function getUser() {
+    const userId = localStorage.getItem("userId");
+    fetch(`${uriUsers}/${userId}`, {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem("token")}`
+        },
+    })
+        .then(response => response.json())
+        .then(response => createUser(response))
+        .catch(error =>
+            console.log(error));
+
+}
+
+let user;
+getUser()
+getItems();
+createLink()
+

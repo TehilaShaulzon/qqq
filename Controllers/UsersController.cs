@@ -1,40 +1,44 @@
-//using System.Collections.Generic;
-
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using homeworkCore.Interfaces;
-using homeworkCore.Models;
-using homeworkCore.Services;
-//using Users.Interfaces;
+using Tasks.Interfaces;
+using Tasks.Models;
+using Tasks.Services;
+namespace Tasks.Controllers;
 
-namespace homeworkCore.Controllers;
 
 [ApiController]
 [Route("[controller]")]
 public class UsersController : ControllerBase
 {
     IUserServices UsersService;
-
     public UsersController(IUserServices UserServices)
     {
         this.UsersService = UserServices;
     }
 
+
     [HttpGet]
+    [Authorize(Policy = "Admin")]
     public ActionResult<List<User>> Get()
     {
         return UsersService.GetAll();
     }
 
+
     [HttpGet("{id}")]
+    [Authorize(Policy = "User")]
+
     public ActionResult<User> Get(int id)
     {
-        var User = UsersService.GetById(id);
-        if (User == null)
+        if ((int.Parse(User.FindFirst("id")?.Value!) != id) && User.FindFirst("type")?.Value != "Admin")
+            return Unauthorized();
+        var user = UsersService.GetById(id);
+        if (user == null)
             return NotFound();
-        return User;
+        return user;
     }
+
 
     [HttpPost]
     [Authorize(Policy = "Admin")]
@@ -46,31 +50,36 @@ public class UsersController : ControllerBase
             new { id = newId }, UsersService.GetById(newId));
     }
 
-    public ActionResult<String> Login([FromBody] User User)
-    {
-        var dt = DateTime.Now;
 
-        if (User.Name != "Wray"
-        || User.Password != "123456")
+    [HttpPost]
+    [Route("/login")]
+    public ActionResult<objectToReturn> Login([FromBody] User User)
+    {
+
+        int UserExistID = UsersService.ExistUser(User.Name, User.Password);
+        // var dt = DateTime.Now;
+        if (UserExistID == -1)
         {
-            // $"W{dt.Year}#{dt.Day}!"
             return Unauthorized();
         }
 
-        var claims = new List<Claim>
-            {
-                new Claim("type", "Admin"),
-            };
+        var claims = new List<Claim> { };
+        if (User.Password == "123")
+            claims.Add(new Claim("type", "Admin"));
+        else
+            claims.Add(new Claim("type", "User"));
+
+        claims.Add(new Claim("id", UserExistID.ToString()));
 
         var token = TasksTokenService.GetToken(claims);
-
-        return new OkObjectResult(TasksTokenService.WriteToken(token));
+        return new OkObjectResult(new{Id=UserExistID,token=TasksTokenService.WriteToken(token)}) ;
     }
-
     [HttpPut("{id}")]
     [Authorize(Policy = "User")]
+
     public ActionResult Put(int id, User newUser)
     {
+
         var result = UsersService.Update(id, newUser);
         if (!result)
         {
@@ -80,12 +89,31 @@ public class UsersController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public void Delete(int id)
+    [Authorize(Policy = "Admin")]
+    public ActionResult Delete(int id)
     {
-        var result = UsersService.Delete(id);
+        bool result = UsersService.Delete(id);
+        if (!result)
+            return NotFound();
+        return NoContent();
     }
 }
+// public ActionResult Put(string name,string password, User newUser)
+//     {
+//         newUser.Id=UsersService.ExistUser(name,password);
 
-internal interface IUserServices
+//         var result = UsersService.Update(name,password, newUser);
+//         if (!result)
+//         {
+//             return BadRequest();
+//         }
+//         return NoContent();
+//     }
+
+public class objectToReturn
 {
+    public int Id { get; set; }
+
+    public string token { get; set; }
 }
+
