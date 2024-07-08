@@ -1,5 +1,5 @@
-using homeworkCore.Services;
-using homeworkCore.Middlewares;
+using tasks.Services;
+using tasks.Middlewares;
 using System;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
